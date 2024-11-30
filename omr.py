@@ -38,13 +38,13 @@ def calculate_corner_features():
 
 def normalize(im):
 
-    im_gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-
-    blurred = cv2.GaussianBlur(im_gray, (3, 3), 0)
-
-    return cv2.adaptiveThreshold(
-        blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 77, 10)
-
+    # im_gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    im_gray = ut.bgr2gray(im)
+    # blurred = cv2.GaussianBlur(im_gray, (3, 3), 0)
+    blurred = ut.gaussian_blur(im_gray,kernel_size=3,sigma=0.8)
+    # return cv2.adaptiveThreshold(
+    #     blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 77, 10)
+    return ut.adaptive_threshold(blurred, 255, 77, 10)
 
 def get_approx_contour(contour, tol=.01):
     epsilon = tol * cv2.arcLength(contour, True)
