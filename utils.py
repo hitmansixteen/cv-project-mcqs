@@ -70,3 +70,25 @@ def adaptive_threshold(img, max_value,block_size, C):
 
 
     return thresholded_img.astype(np.uint8)
+
+def getMoments(contour):
+    moments = cv2.moments(contour)
+    HuMoments = cv2.HuMoments(moments)
+    return HuMoments
+
+def featuresDistance(f1, f2):
+    return np.linalg.norm(np.array(f1) - np.array(f2))
+
+def perspectiveTransform(img, points,size):
+    source = np.array(points,dtype="float32")
+
+    dest = np.array([
+        [size, size],
+        [0, size],
+        [0, 0],
+        [size, 0]],
+        dtype="float32")
+
+    transform = cv2.getPerspectiveTransform(source, dest)
+    warped = cv2.warpPerspective(img, transform, (size, size))
+    return warped
